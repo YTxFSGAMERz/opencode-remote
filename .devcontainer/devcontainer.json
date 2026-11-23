@@ -1,0 +1,22 @@
+{
+  "name": "OpenCode Remote",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+  "postCreateCommand": "npm install --global @opencode/cli",
+  "postStartCommand": "bash .devcontainer/start-opencode.sh",
+  "forwardPorts": [
+    4096
+  ],
+  "portsAttributes": {
+    "4096": {
+      "label": "OpenCode Web",
+      "onAutoForward": "notify",
+      "visibility": "private"
+    }
+  },
+  "remoteUser": "vscode"
+}
