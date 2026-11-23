@@ -1,23 +1,29 @@
 # OpenCode Remote
 
-Run OpenCode from GitHub Issues and pull-request comments using GitHub Actions.
+Run the **real OpenCode server and web UI** in GitHub Codespaces, then access it from a phone or browser.
 
-## Usage
+## Start it
 
-1. Install the [OpenCode GitHub App](https://github.com/apps/opencode-agent) on this repository.
-2. Add an Actions repository secret named `ANTHROPIC_API_KEY` with an API key from your Anthropic account.
-3. Open an issue or pull request and comment with `/oc <task>` or `/opencode <task>`.
+1. Open this repository on GitHub.
+2. Select **Code → Codespaces → Create codespace on main**.
+3. Wait for the Codespace to finish creating. The devcontainer installs OpenCode and starts its web server on port `4096`.
+4. In the Codespace, open the **Ports** tab. Keep port `4096` set to **Private**.
+5. Open the forwarded address on your phone or browser. GitHub will require you to authenticate.
+6. Open the Codespace terminal and run:
+   ```bash
+   cat ~/.opencode-remote/server-password
+   ```
+   In the OpenCode login prompt, use username `opencode` and that password.
 
-Examples:
+## Sign in to a model provider without an API key
 
-- `/oc explain the project structure`
-- `/opencode investigate this bug and propose a fix`
+Open the Codespace terminal and run `opencode auth login`. Choose **GitHub Copilot**, then complete its device sign-in flow. This uses OAuth, not an API key. Your GitHub account must have Copilot Chat access; Copilot Free has usage limits.
 
-The workflow is restricted to comments authored by the repository owner. It runs on a temporary GitHub-hosted runner; it is not a persistent server.
+Then refresh the OpenCode web page and select an available model.
 
-## Security
+## Important limitations
 
-- Never commit API keys or other credentials.
-- The workflow checks out the repository with persisted Git credentials disabled.
-- Review generated changes before merging.
-- Keep this repository private if its source or issue context should not be public.
+- Codespaces is a cloud development machine, not an always-on hosting service. It stops after inactivity and has a maximum 12-hour lifetime per session.
+- Free usage is limited by your GitHub account's included Codespaces quota. Additional usage may be billed if you enable paid usage.
+- Keep port `4096` private. Do not change it to public.
+- Do not share the server password.
